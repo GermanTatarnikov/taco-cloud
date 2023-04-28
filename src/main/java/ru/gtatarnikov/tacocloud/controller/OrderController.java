@@ -4,12 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.gtatarnikov.tacocloud.entity.TacoOrder;
 import ru.gtatarnikov.tacocloud.repository.OrderRepository;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Slf4j
 @Controller
@@ -34,6 +38,7 @@ public class OrderController {
         if (errors.hasErrors()) {
             return "orderForm";
         }
+        order.setPlacedAt(new Date());
         orderRepo.save(order);
         log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
