@@ -1,21 +1,20 @@
 package ru.gtatarnikov.tacocloud.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import lombok.*;
 
-@Data
+import javax.persistence.*;
+
+@Entity
+@Getter
+@Setter
 @AllArgsConstructor
+@Table(name = "Ingredient")
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-@Table("ingredients")
 public class Ingredient {
-
-    @PrimaryKey
+    @Id
     private String id;
     private String name;
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     public enum Type {
