@@ -1,3 +1,5 @@
+delete from taco_ingredients;
+delete from taco_order_taco;
 delete from taco;
 delete from taco_order;
 
