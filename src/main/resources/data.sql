@@ -1,7 +1,7 @@
-delete from ingredient_ref;
+delete from taco_ingredients;
+delete from taco_order_taco;
 delete from taco;
 delete from taco_order;
-delete from taco_order_tacos;
 
 insert into Ingredient (id, name, type)
     values ('FLTO', 'Flour Tortilla', 'WRAP');
