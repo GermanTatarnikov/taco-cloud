@@ -29,6 +29,9 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .defaultSuccessUrl("/")
                 .and()
+                .logout()
+                .logoutSuccessUrl("/login")
+                .and()
                 .csrf().disable()
                 .build();
     }
