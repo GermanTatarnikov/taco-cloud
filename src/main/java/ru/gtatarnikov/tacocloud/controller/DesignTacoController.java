@@ -9,7 +9,7 @@ import ru.gtatarnikov.tacocloud.entity.Ingredient;
 import ru.gtatarnikov.tacocloud.entity.Ingredient.Type;
 import ru.gtatarnikov.tacocloud.entity.Taco;
 import ru.gtatarnikov.tacocloud.entity.TacoOrder;
-import ru.gtatarnikov.tacocloud.repository.IngredientRepository;
+import ru.gtatarnikov.tacocloud.service.DesignTacoService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,33 +20,25 @@ import java.util.stream.Collectors;
 @RequestMapping("/design")
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
+    private final DesignTacoService designTacoService;
 
-    private final IngredientRepository ingredientRepository;
-
-    public DesignTacoController(IngredientRepository ingredientRepository) {
-        this.ingredientRepository = ingredientRepository;
+    public DesignTacoController(DesignTacoService designTacoService) {
+        this.designTacoService = designTacoService;
     }
 
     @GetMapping
     public String showDesignForm() {
-        return "design";
+        return designTacoService.showDesignForm();
     }
 
     @PostMapping
     public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder tacoOrder) {
-        if (errors.hasErrors()) {
-            return "design";
-        }
-
-        tacoOrder.addTaco(taco);
-        log.info("Processing taco: {}", taco);
-
-        return "redirect:/orders/current";
+        return designTacoService.processTaco(taco, errors, tacoOrder);
     }
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = (List<Ingredient>) ingredientRepository.findAll();
+        List<Ingredient> ingredients = (List<Ingredient>) designTacoService.findAll();
         Type[] types = Ingredient.Type.values();
         for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
