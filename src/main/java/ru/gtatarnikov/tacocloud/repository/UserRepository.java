@@ -2,9 +2,9 @@ package ru.gtatarnikov.tacocloud.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.gtatarnikov.tacocloud.entity.Client;
+import ru.gtatarnikov.tacocloud.entity.User;
 
 @Repository
-public interface ClientRepository extends CrudRepository<Client, Long> {
-    Client findByUsername(String username);
+public interface UserRepository extends CrudRepository<User, Long> {
+    User findByUsername(String username);
 }

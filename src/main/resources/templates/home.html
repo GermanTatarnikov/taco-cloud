@@ -13,6 +13,8 @@
             <br/>
             <form action="design">
                 <input type="submit" value="Go to taco designing!"/>
+
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}/">
             </form>
         </div>
 
