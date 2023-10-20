@@ -2,14 +2,19 @@ package ru.gtatarnikov.tacocloud.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.support.SessionStatus;
-import ru.gtatarnikov.tacocloud.entity.TacoOrder;
-import ru.gtatarnikov.tacocloud.entity.User;
+import ru.gtatarnikov.tacocloud.model.entity.Order;
+import ru.gtatarnikov.tacocloud.model.entity.User;
+import ru.gtatarnikov.tacocloud.props.OrderProps;
 import ru.gtatarnikov.tacocloud.repository.OrderRepository;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Date;
 
@@ -17,10 +22,12 @@ import java.util.Date;
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final OrderProps orderProps;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, OrderProps orderProps) {
         this.orderRepository = orderRepository;
+        this.orderProps = orderProps;
     }
 
     public String orderForm() {
@@ -29,12 +36,13 @@ public class OrderService {
 
     @PostAuthorize("hasRole('ADMIN') ||" +
             "returnObject.user.username == authentication.name")
-    public TacoOrder getOrder(Long id) {
+    public Order getOrder(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order doesn't found"));
     }
 
-    public String processOrder(@Valid TacoOrder order, Errors errors, SessionStatus sessionStatus, User user) {
+    @Transactional
+    public String processOrder(@Valid Order order, Errors errors, SessionStatus sessionStatus, User user) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
@@ -44,5 +52,13 @@ public class OrderService {
         log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
         return "redirect:/";
+    }
+
+    public String ordersForUser(User user, Model model) {
+        Pageable pageable = PageRequest.of(0, orderProps.getPageSize());
+        model.addAttribute("orders",
+                orderRepository.findByUserOrderByPlacedAtDesc(user, pageable));
+
+        return "orderList";
     }
 }

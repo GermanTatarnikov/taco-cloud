@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.gtatarnikov.tacocloud.dto.RegistrationForm;
+import ru.gtatarnikov.tacocloud.model.dto.RegistrationForm;
 import ru.gtatarnikov.tacocloud.service.RegistrationService;
 
 @Controller

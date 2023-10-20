@@ -1,0 +1,8 @@
+server:
+  port: 8080
+taco:
+  orders:
+    page-size: 10
+logging:
+  level:
+    tacos: DEBUG

@@ -1,4 +1,4 @@
-package ru.gtatarnikov.tacocloud.entity;
+package ru.gtatarnikov.tacocloud.model.entity;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

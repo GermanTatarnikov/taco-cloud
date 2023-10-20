@@ -1,8 +1,8 @@
-package ru.gtatarnikov.tacocloud.dto;
+package ru.gtatarnikov.tacocloud.model.dto;
 
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.gtatarnikov.tacocloud.entity.User;
+import ru.gtatarnikov.tacocloud.model.entity.User;
 
 @Data
 public class RegistrationForm {

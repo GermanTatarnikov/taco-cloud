@@ -1,4 +1,4 @@
-package ru.gtatarnikov.tacocloud.entity;
+package ru.gtatarnikov.tacocloud.model.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @Table(name = "taco_order")
-public class TacoOrder implements Serializable {
+public class Order implements Serializable {
     private static final Long SERIAL_VERSION_UID = 1L;
 
     @Id

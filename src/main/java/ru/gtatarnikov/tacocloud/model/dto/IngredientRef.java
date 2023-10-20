@@ -1,4 +1,4 @@
-package ru.gtatarnikov.tacocloud.dto;
+package ru.gtatarnikov.tacocloud.model.dto;
 
 import lombok.Data;
 
