@@ -5,10 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import ru.gtatarnikov.tacocloud.entity.Ingredient;
-import ru.gtatarnikov.tacocloud.entity.Ingredient.Type;
-import ru.gtatarnikov.tacocloud.entity.Taco;
-import ru.gtatarnikov.tacocloud.entity.TacoOrder;
+import ru.gtatarnikov.tacocloud.model.entity.Ingredient;
+import ru.gtatarnikov.tacocloud.model.entity.Ingredient.Type;
+import ru.gtatarnikov.tacocloud.model.entity.Taco;
+import ru.gtatarnikov.tacocloud.model.entity.Order;
 import ru.gtatarnikov.tacocloud.service.DesignTacoService;
 
 import javax.validation.Valid;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Controller
 @RequestMapping("/design")
-@SessionAttributes("tacoOrder")
+@SessionAttributes("order")
 public class DesignTacoController {
     private final DesignTacoService designTacoService;
 
@@ -32,8 +32,8 @@ public class DesignTacoController {
     }
 
     @PostMapping
-    public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder tacoOrder) {
-        return designTacoService.processTaco(taco, errors, tacoOrder);
+    public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute Order order) {
+        return designTacoService.processTaco(taco, errors, order);
     }
 
     @ModelAttribute
@@ -45,9 +45,9 @@ public class DesignTacoController {
         }
     }
 
-    @ModelAttribute("tacoOrder")
-    public TacoOrder order() {
-        return new TacoOrder();
+    @ModelAttribute("order")
+    public Order order() {
+        return new Order();
     }
 
     @ModelAttribute("taco")

@@ -3,9 +3,9 @@ package ru.gtatarnikov.tacocloud.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
-import ru.gtatarnikov.tacocloud.entity.Ingredient;
-import ru.gtatarnikov.tacocloud.entity.Taco;
-import ru.gtatarnikov.tacocloud.entity.TacoOrder;
+import ru.gtatarnikov.tacocloud.model.entity.Ingredient;
+import ru.gtatarnikov.tacocloud.model.entity.Order;
+import ru.gtatarnikov.tacocloud.model.entity.Taco;
 import ru.gtatarnikov.tacocloud.repository.IngredientRepository;
 
 @Slf4j
@@ -25,12 +25,12 @@ public class DesignTacoService {
         return "design";
     }
 
-    public String processTaco(Taco taco, Errors errors, TacoOrder tacoOrder) {
+    public String processTaco(Taco taco, Errors errors, Order order) {
         if (errors.hasErrors()) {
             return "design";
         }
 
-        tacoOrder.addTaco(taco);
+        order.addTaco(taco);
         log.info("Processing taco: {}", taco);
 
         return "redirect:/orders/current";
