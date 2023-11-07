@@ -6,10 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.gtatarnikov.tacocloud.model.entity.Order;
 import ru.gtatarnikov.tacocloud.model.entity.User;
@@ -43,5 +40,11 @@ public class OrderController {
     @GetMapping
     public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
         return orderService.ordersForUser(user, model);
+    }
+
+    @PutMapping(value = "/{orderId}", consumes = "application/json")
+    public Order putOrder(@PathVariable("orderId") Long orderId,
+                          @RequestBody Order order) {
+        return orderService.putOrder(orderId, order);
     }
 }

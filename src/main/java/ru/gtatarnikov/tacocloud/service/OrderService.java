@@ -42,6 +42,12 @@ public class OrderService {
     }
 
     @Transactional
+    public Order putOrder(Long orderId, Order order) {
+        order.setId(orderId);
+        return orderRepository.save(order);
+    }
+
+    @Transactional
     public String processOrder(@Valid Order order, Errors errors, SessionStatus sessionStatus, User user) {
         if (errors.hasErrors()) {
             return "orderForm";
