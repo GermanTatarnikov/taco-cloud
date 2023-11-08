@@ -1,21 +1,19 @@
 package ru.gtatarnikov.tacocloud.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.gtatarnikov.tacocloud.model.entity.Ingredient;
 import ru.gtatarnikov.tacocloud.model.entity.Ingredient.Type;
-import ru.gtatarnikov.tacocloud.model.entity.Taco;
 import ru.gtatarnikov.tacocloud.model.entity.Order;
+import ru.gtatarnikov.tacocloud.model.entity.Taco;
 import ru.gtatarnikov.tacocloud.service.DesignTacoService;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("order")

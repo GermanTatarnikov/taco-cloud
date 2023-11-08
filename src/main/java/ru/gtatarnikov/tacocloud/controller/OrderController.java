@@ -1,7 +1,7 @@
 package ru.gtatarnikov.tacocloud.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +14,8 @@ import ru.gtatarnikov.tacocloud.service.OrderService;
 
 import javax.validation.Valid;
 
-@Slf4j
 @Controller
-@RequestMapping("/orders")
+@RequestMapping("/api/orders")
 @SessionAttributes("order")
 public class OrderController {
 
@@ -46,5 +45,17 @@ public class OrderController {
     public Order putOrder(@PathVariable("orderId") Long orderId,
                           @RequestBody Order order) {
         return orderService.putOrder(orderId, order);
+    }
+
+    @PatchMapping(path = "/{orderId}", consumes = "application/json")
+    public Order patchOrder(@PathVariable("orderId") Long orderId,
+                            @RequestBody Order patch) {
+        return orderService.patchOrder(orderId, patch);
+    }
+
+    @DeleteMapping("/{orderId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteOrder(@PathVariable("orderId") Long orderId) {
+        orderService.deleteOrder(orderId);
     }
 }

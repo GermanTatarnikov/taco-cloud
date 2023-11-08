@@ -2,6 +2,7 @@ package ru.gtatarnikov.tacocloud.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -42,12 +43,6 @@ public class OrderService {
     }
 
     @Transactional
-    public Order putOrder(Long orderId, Order order) {
-        order.setId(orderId);
-        return orderRepository.save(order);
-    }
-
-    @Transactional
     public String processOrder(@Valid Order order, Errors errors, SessionStatus sessionStatus, User user) {
         if (errors.hasErrors()) {
             return "orderForm";
@@ -60,11 +55,55 @@ public class OrderService {
         return "redirect:/";
     }
 
+    @Transactional
+    public Order putOrder(Long orderId, Order order) {
+        order.setId(orderId);
+        return orderRepository.save(order);
+    }
+
+    @Transactional
+    public Order patchOrder(Long orderId, Order patch) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order doesn't found"));
+        patchOrder(order, patch);
+
+        return orderRepository.save(order);
+    }
+
+    public void deleteOrder(Long orderId) {
+        try {
+            orderRepository.deleteById(orderId);
+        } catch (EmptyResultDataAccessException e) {}
+    }
+
     public String ordersForUser(User user, Model model) {
         Pageable pageable = PageRequest.of(0, orderProps.getPageSize());
         model.addAttribute("orders",
                 orderRepository.findByUserOrderByPlacedAtDesc(user, pageable));
 
         return "orderList";
+    }
+
+    private static void patchOrder(Order order, Order patch) {
+        if (patch.getDeliveryName() != null)
+            order.setDeliveryName(patch.getDeliveryName());
+
+        if (patch.getDeliveryCity() != null)
+            order.setDeliveryCity(patch.getDeliveryCity());
+
+        if (patch.getDeliveryState() != null)
+            order.setDeliveryState(patch.getDeliveryState());
+
+        if (patch.getDeliveryZip() != null)
+            order.setDeliveryZip(patch.getDeliveryZip());
+
+        if (patch.getCcNumber() != null)
+            order.setCcNumber(patch.getCcNumber());
+
+        if (patch.getCcExpiration() != null)
+            order.setCcExpiration(patch.getCcExpiration());
+
+        if (patch.getCcCVV() != null)
+            order.setCcCVV(patch.getCcCVV());
     }
 }
