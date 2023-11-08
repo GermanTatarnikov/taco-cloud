@@ -3,6 +3,7 @@ package ru.gtatarnikov.tacocloud.model.entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @Table(name = "taco")
+@RestResource(rel = "tacos", path = "tacos")
 public class Taco {
     @Id
     @SequenceGenerator(name = "taco_id_generator", allocationSize = 1)
